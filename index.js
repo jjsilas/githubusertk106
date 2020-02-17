@@ -27,7 +27,7 @@ function getNews(query, maxResults=10) {
   };
 
   fetch(url, options)
-    .then(response => response.jsonp())
+    .then(response => response.json())
     .then(responseJson => console.log(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
