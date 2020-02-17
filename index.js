@@ -2,7 +2,10 @@
 
 const userId = 'jjsilas'
 
-const searchURL = 'https://api.github.com/users/';
+/* get url https://api.github.com/users/jjsilas?type=all&type=test*/
+
+const searchURL = 'https://api.github.com/';
+
 
 
 function formatQueryParams(params) {
@@ -11,13 +14,12 @@ function formatQueryParams(params) {
   return queryItems.join('&');
 }
 
-function getNews(query, maxResults=10) {
+function getUser(query) {
   const params = {
-    q: query,
-    language: "en",
+    q: query
   };
   const queryString = formatQueryParams(params)
-  const url = searchURL + '?' + queryString;
+  const url = searchURL + queryString;
 
   console.log(url);
   
@@ -27,7 +29,8 @@ function getNews(query, maxResults=10) {
   };
 
   fetch(url, options)
-    .then(response => response.json())
+  /* I tried adding jsonp here - response.jsonp to work around a cors issues */
+    .then(response => response.jsonp())
     .then(responseJson => console.log(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
@@ -38,8 +41,7 @@ function watchForm() {
   $('form').submit(event => {
     event.preventDefault();
     const searchTerm = $('#js-search-term').val();
-    const maxResults = $('#js-max-results').val();
-    getNews(searchTerm, maxResults);
+    getUser(searchTerm);
   });
 }
 
