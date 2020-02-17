@@ -1,8 +1,8 @@
 'use strict';
 
-const apiKey = 'a600403bd1984d1fb0b0516940b2f090'
+const userId = 'jjsilas'
 
-const searchURL = 'https://newsapi.org/v2/everything';
+const searchURL = 'https://api.github.com/users/';
 
 
 function formatQueryParams(params) {
@@ -23,11 +23,11 @@ function getNews(query, maxResults=10) {
   
   const options = {
     headers: new Headers({
-      "X-Api-Key": apiKey})
+      "X-Api-Key": userId})
   };
 
   fetch(url, options)
-    .then(response => response.json())
+    .then(response => response.jsonp())
     .then(responseJson => console.log(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
