@@ -4,7 +4,7 @@ const userId = 'jjsilas'
 
 /* get url https://api.github.com/users/jjsilas?type=all&type=test*/
 
-const searchURL = 'https://api.github.com/';
+const searchURL = 'https://api.github.com/users/';
 
 
 
@@ -15,26 +15,36 @@ function formatQueryParams(params) {
 }
 
 function getUser(query) {
-  const params = {
-    q: query
-  };
-  const queryString = formatQueryParams(params)
-  const url = searchURL + queryString;
+  // const params = {
+  //   q: query
+  // };
+  // const queryString = formatQueryParams(params)
+  const url = searchURL + query;
 
   console.log(url);
-  
+
   const options = {
-    headers: new Headers({
-      "X-Api-Key": userId})
+    // headers: new Headers({
+    //   "X-Api-Key": userId})
   };
 
   fetch(url, options)
-  /* I tried adding jsonp here - response.jsonp to work around a cors issues */
-    .then(response => response.jsonp())
-    .then(responseJson => console.log(responseJson))
+
+    .then(response => response.json())
+    .then(responseJson => displayResults(responseJson))
     .catch(err => {
       $('#js-error-message').text(`Something went wrong: ${err.message}`);
     });
+}
+
+function displayResults(data) {
+  const { name, avatar_url, html_url } = data;
+  $('#results').html(`
+<h3>${name}</h3>
+<img src="${avatar_url}"/>
+<a href="${html_url}">
+${html_url} </a>
+`)
 }
 
 function watchForm() {
